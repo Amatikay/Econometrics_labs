@@ -26,6 +26,10 @@ hist(r_geom, freq =F)
 #plot(r_geom,type="l")
 
 
+#полигон частот
+h1<- just(r_geom)
+lines(h1$counts tilda (исправь тильду) h1$mids)
+
 x_tbl <- table(r_geom) # Таблицa частот
 
 
