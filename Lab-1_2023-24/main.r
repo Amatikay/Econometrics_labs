@@ -8,7 +8,8 @@ Mode <- function(x) {
 
 
 #Poisson distribution
-poisson_sample <- rpois(200, 5)  # Генерируем выборку с распределением Пуассона
+lambda <- 5
+poisson_sample <- rpois(200, lambda)  # Генерируем выборку с распределением Пуассона
 
 #Sort sample
 sorted_poisson_sample <- sort(poisson_sample)
@@ -40,6 +41,17 @@ sd(poisson_sample) 	# Стандартное отклониение
 median(poisson_sample) # Медиана
 quantile(poisson_sample, probs = 0.5) # Квантили
 Mode(poisson_sample)
+
+#Theoretical Mean and Var for Poisson distribution
+M_Pois_distr <- lambda
+D_Pois_distr <- lambda
+
+#MLE тут остановился. Пока не понял как сделать правдоподобие для пуассона
+library(stats4)
+poisson_log_likelihood <- function(lambda, x) {
+  sum(dpois(x, lambda, log = TRUE))
+}
+mle(poisson_log_likelihood, start = list(lambda), x = poisson_sample)
 
 #Асиметрия и эксцесс нужна библиотека моментов, но она не подключается почему то
 #skewness(poisson_sample)
