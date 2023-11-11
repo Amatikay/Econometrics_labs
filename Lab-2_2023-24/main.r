@@ -1,3 +1,28 @@
+# Шкала Чеддока
+Chaddock_scale <- function(parameter) {
+  if (parameter == 0) {
+    return("отсутствует")
+  } else if (parameter %in% seq(0, 0.2, 0.1)) {
+    return("очень слабая")
+  } else if (parameter %in% seq(0.2, 0.3, 0.1)) {
+    return("слабая")
+  } else if (parameter %in% seq(0.3, 0.5, 0.1)) {
+    return("умеренная")
+  } else if (parameter %in% seq(0.5, 0.7, 0.1)) {
+    return("заметная")
+  } else if (parameter %in% seq(0.7, 0.9, 0.1)) {
+    return("сильная")
+  } else if (parameter %in% seq(0.9, 1, 0.1)) {
+    return("очень сильная")    
+  } else if (parameter == 1) {
+    return("функциональная")
+  } else {
+    return("Parameter out of range")
+  }
+}
+
+
+
 ## Генерация нормальных распределений
 n <- 40
 norm_sample1 <- rnorm(n,mean = 10,sd = 5)
@@ -43,12 +68,34 @@ sigma2_squared <- 1/n * sum((norm_sample2 - norm_sample1_mean)^2)
 sigma3_squared <- 1/n * sum((norm_sample3 - norm_sample1_mean)^2)
 
 # Средняя внутригрупповая дисперсия. | Как правильно это написать на английском? 
-sigma_insidegroup_squared <- 1/n * sum(c(sigma1_squared * n, sigma2_squared * n, sigma3_squared * n))
+sigma_insidegroup_squared_medium <- 1/n * sum(c(sigma1_squared * n, sigma2_squared * n, sigma3_squared * n))
 
 #Межгрупповая дисперсия
 sigma_betwines_squared <- 1/n * sum((c(norm_sample1_mean, norm_sample2_mean, norm_sample3_mean)- norm_sample)^2 * n)
 
 cat("\n\t### Дисперсии ###\n")
 cat("Общая дисперсия: ", sigma_squared, "\n")
-cat("Средняя внутригрупповая дисперсия: ", sigma_insidegroup_squared, "\n")
+cat("Средняя внутригрупповая дисперсия: ", sigma_insidegroup_squared_medium, "\n")
 cat("Межгрупповая дисперсия: ", sigma_betwines_squared, "\n")
+
+cat("Правило сложения дисперсий:\n", sigma_squared, " = ", sigma_insidegroup_squared_medium, " + ", sigma_betwines_squared, " = ",
+														   sigma_insidegroup_squared_medium + sigma_betwines_squared, "\n",
+														   sep = "")
+
+
+## Кореляции
+
+# Коэффициент детерминации
+eta_square <- 1 - sigma_squared/sigma_betwines_squared 
+
+# Корреляционное отношение
+eta <- sqrt(eta_square)
+
+cat("\n\t### Кореляции ###\n")
+cat("Коэффицент детерминации: ", eta_square, "\n")
+cat("Корреляционное отношение: ", eta, "\n")
+
+
+# Проверка силы влияния группирующего фактора
+
+cat("По шкале Чеддока связь группирующего фактора ", Chaddock_scale(eta), ".\n", sep = "")
