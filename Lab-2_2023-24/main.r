@@ -1,18 +1,19 @@
+
 # Шкала Чеддока
 Chaddock_scale <- function(parameter) {
   if (parameter == 0) {
     return("отсутствует")
-  } else if (parameter %in% seq(0, 0.2, 0.1)) {
+  } else if (parameter >= 0 & parameter < 0.2) {
     return("очень слабая")
-  } else if (parameter %in% seq(0.2, 0.3, 0.1)) {
+  } else if (parameter >= 0.2 & parameter < 0.3) {
     return("слабая")
-  } else if (parameter %in% seq(0.3, 0.5, 0.1)) {
+  } else if (parameter >= 0.3 & parameter < 0.5) {
     return("умеренная")
-  } else if (parameter %in% seq(0.5, 0.7, 0.1)) {
+  } else if (parameter >= 0.5 & parameter < 0.7) {
     return("заметная")
-  } else if (parameter %in% seq(0.7, 0.9, 0.1)) {
+  } else if (parameter >= 0.7 & parameter < 0.9) {
     return("сильная")
-  } else if (parameter %in% seq(0.9, 1, 0.1)) {
+  } else if (parameter >= 0.9 & parameter < 1) {
     return("очень сильная")    
   } else if (parameter == 1) {
     return("функциональная")
@@ -20,6 +21,7 @@ Chaddock_scale <- function(parameter) {
     return("Parameter out of range")
   }
 }
+
 
 
 
