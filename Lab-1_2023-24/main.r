@@ -54,16 +54,16 @@ cat("Теоретические мат ожидания и дисперсия д
 M_Pois_distr <- lambda
 D_Pois_distr <- lambda
 
-#MLE тут остановился. Для распределения пуассона метод максимального правдоподобия сводится к 
+#MLE Для распределения пуассона метод максимального правдоподобия сводится к
 lambda_est <- sum(poisson_sample) / length(poisson_sample)
 cat("Estimates of lambda\n")
 print(lambda_est)
 
-#Асиметрия и эксцесс нужна библиотека моментов, но она не подключается почему то
+#Асиметрия и эксцесс.
 
-#cat("Коэффиценты асиметрии и эксцесса\n")
-#skewness(poisson_sample)
-#kurtosis(poisson_sample)
+cat("Коэффиценты асиметрии и эксцесса\n")
+skewness(poisson_sample)
+kurtosis(poisson_sample)
 
 
 ##########################################################################
@@ -100,7 +100,7 @@ print(summary_stats)
 
 # Выборочное среднее (Арифметическое ожидание)
 mean_value <- mean(x_exp)
-cat("Выборочное среднее: ", mean_value, "\n")
+cat("\nВыборочное среднее: ", mean_value, "\n")
 
 # График
 hist(x_exp, freq = FALSE)
@@ -115,12 +115,26 @@ print(dist_fit)
 
 # MLE 
 lambda_est_mle <- sum(x_exp) / length(x_exp)
-cat("MLE:\n", lambda_est_mle)
+cat("\nMLE:\n", lambda_est_mle,"\n")
 
 # Тесты
-ks_test_result <- ks.test(x_exp, "pexp", dist_fit$estimate)$p.value
-chisq_test_result <- chisq.test(x_exp, dexp(x_exp, rate = M_x_exp), rescale.p = TRUE)
+##Колмогорова смирнова
+ks_test_result <- ks.test(x_exp, pexp, lambda)$p.value
+cat("\nТест Колмогорова Смирнова | p-value: ", ks_test_result, "\n")
 
-cat("Тест Колмогорова Смирнова | p-value:\n", ks_test_result, "\n")
-print(chisq_test_result)
-
+##Хи квадрат
+xhc = hist(x_exp,plot=FALSE)$counts
+hist(cumsum(xhc))
+xhb = hist(x_exp,plot=FALSE)$breaks
+k = length(xhc)
+xhb[k+1] = Inf
+xhb[1] = 0
+pnth = pexp(xhb,10)
+thfr = pnth[2:(k+1)]-pnth[1:k]
+test = chisq.test(xhc,p=thfr)
+test
+#p-value
+pvalue = 1-pchisq(test$statistic,test$parameter)
+pvalue
+# chisq_test_result <- chisq.test(x_exp, , rescale.p = TRUE)$p.value # Если я хочу провести тест на соотв теоретическому распределению
+# cat("\nТест Хи квадрат | p-value: ", chisq_test_result, "\n")
