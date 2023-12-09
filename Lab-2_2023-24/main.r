@@ -51,7 +51,6 @@ norm_sample_mean <- mean(norm_sample)
 
 cat("Общее среднее: ", norm_sample_mean, "\n")
 
-
 ## Графики для средних
 
 # Создание ящика для каждой выборки
@@ -63,32 +62,33 @@ abline(h = norm_sample_mean, col = "red")
 
 ## Дисперсии
 
-sigma_squared <- 1/n * sum((norm_sample - norm_sample_mean)^2)
+sigma_squared  <- (1/(n*3)) * sum((norm_sample - norm_sample_mean)^2)
 
-sigma1_squared <- 1/n * sum((norm_sample1 - norm_sample1_mean)^2)
-sigma2_squared <- 1/n * sum((norm_sample2 - norm_sample1_mean)^2)
-sigma3_squared <- 1/n * sum((norm_sample3 - norm_sample1_mean)^2)
+sigma1_squared <- (1/n) * sum((norm_sample1 - norm_sample1_mean)^2)
+sigma2_squared <- (1/n) * sum((norm_sample2 - norm_sample2_mean)^2)
+sigma3_squared <- (1/n) * sum((norm_sample3 - norm_sample3_mean)^2)
 
-# Средняя внутригрупповая дисперсия. | Как правильно это написать на английском? 
-sigma_insidegroup_squared_medium <- 1/n * sum(c(sigma1_squared * n, sigma2_squared * n, sigma3_squared * n))
+sigma_within_squared_medium <- (1/(n*3)) * (sigma1_squared * n + sigma2_squared * n + sigma3_squared * n )
 
-#Межгрупповая дисперсия
-sigma_betwines_squared <- 1/n * sum((c(norm_sample1_mean, norm_sample2_mean, norm_sample3_mean)- norm_sample)^2 * n)
+sigma_between_squared <- (1/(n*3)) * sum ( (norm_sample1_mean - norm_sample_mean)^2 * n , (norm_sample2_mean - norm_sample_mean)^2 * n , (norm_sample3_mean - norm_sample_mean)^2 * n )
+
+
+
 
 cat("\n\t### Дисперсии ###\n")
 cat("Общая дисперсия: ", sigma_squared, "\n")
-cat("Средняя внутригрупповая дисперсия: ", sigma_insidegroup_squared_medium, "\n")
-cat("Межгрупповая дисперсия: ", sigma_betwines_squared, "\n")
+cat("Средняя внутригрупповая дисперсия: ", sigma_within_squared_medium, "\n")
+cat("Межгрупповая дисперсия: ", sigma_between_squared, "\n")
 
-cat("Правило сложения дисперсий:\n", sigma_squared, " = ", sigma_insidegroup_squared_medium, " + ", sigma_betwines_squared, " = ",
-														   sigma_insidegroup_squared_medium + sigma_betwines_squared, "\n",
+cat("Правило сложения дисперсий:\n", sigma_squared, " = ", sigma_within_squared_medium, " + ", sigma_between_squared, " = ",
+														   sigma_within_squared_medium + sigma_between_squared, "\n",
 														   sep = "")
 
 
 ## Кореляции
 
 # Коэффициент детерминации
-eta_square <- 1 - sigma_squared/sigma_betwines_squared 
+eta_square <- sigma_between_squared/sigma_squared
 
 # Корреляционное отношение
 eta <- sqrt(eta_square)
