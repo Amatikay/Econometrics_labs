@@ -9,7 +9,7 @@ X3 <- r_2 * X1 + sqrt(1 - r_2^2) * rnorm(N,0,1)
 
 plot(X1,X2,type='p', main='X1:X2')
 plot(X1,X3,type='p', main='X1:X3')
-plot(X2,X3,type='p', main='X1:X3')
+plot(X2,X3,type='p', main='X2:X3')
 
 r_1_estimate <- cor(X1,X2)
 r_2_estimate <- cor(X1,X3)
@@ -102,3 +102,5 @@ cor.test(data$rooms , data$s)
 chisq.test(data$walls, data$district)
 
 if ( chisq.test(data$walls, data$district)$p.value < 0.05) { cat("Есть корреляция!") }
+
+cor.test(data$rent,data$floor,method = "spearman")
