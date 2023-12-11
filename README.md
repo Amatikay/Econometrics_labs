@@ -9,3 +9,6 @@
 5.
 6.
 7.  
+
+Ссылки на онлайн хранилища:
+[GoogleColab](https://drive.google.com/drive/folders/1XbEcVASzS3khxjEvs-NWOhFAA58UNHYV?usp=drive_link)
